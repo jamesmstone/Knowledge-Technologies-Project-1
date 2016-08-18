@@ -1,7 +1,7 @@
 sudo: required
 dist: trusty
 before_install:
-- sudo apt-get -qq update && sudo apt-get install -y --no-install-recommends texlive-fonts-recommended
+- sudo apt-get -qq update && sudo apt-get install -y texlive-fonts-recommended
   texlive-latex-extra texlive-fonts-extra dvipng texlive-latex-recommended
 script:
 - cd report
@@ -13,7 +13,5 @@ deploy:
     secure: j/LhHx3e85LoSIC3nXGJEYyetomvlVYoHi5KRxsESTj6YiHO1Jp7n7gU4GJfyB+nvcPEaniBtaHg9pi+xrh8T8fP97aOb6JQ1Ok0nltv8ccglM7lLXHM3yH0dKh6OJndQe7N1QWevV9d96Vc9KX3XlUZA//s4letUsGKT5ozGXYiXOWqqh2lxyOBTTN/ooqEbhdCWXiGLeshbMvNXx17VusBQaxHz1Xv77atPerEiJkaBJyriRfk6jp1LaxNY9FrgP4JZkAR+fONXb+vp4zp0C+E13NfzUfjr9JL7GgpRBxxRcXV8yYvIywLKHn/u2fGILgw1UziO9Rial37aZNRIIo08779YzFffQ6DJALtAijg5MwMqrr9csDXqmey9VkjSBjzXReylKSiYhkHbM7Z62qn2GF3WCaZjbL58f8JnQdzg8jrJlcwo9mmGGkFLVEMQOtFpSUgPq0/ivCRp7gvtFSkBLlNV4k+rLPldvZdTLkxxtz5SAkPYzgKCxzkheGYvr5mP5gNL2AKh49A3Ii8XdqDOfBhDXJ8yVTSFQM8LW8JW/KlFv+zs+XlYQFaMJ+fu4tXtm1tu9sgjqBqAenJcXlu3lbY+30ti1TQmdDWOirXLJvVeTkrYTvUiTOMT/9uWgirUGLPuRTenw13k7rOr/fREUwNYXRP06g/CdSBwLM=
   file: report/_build/report.pdf
   skip_cleanup: true
-  on:
-    tags: true 
- on:
+  on: 
     repo: jamesmstone/Knowledge-Technologies-Project-1
