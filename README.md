@@ -1,5 +1,6 @@
 # Misspelled Location Names - Knowledge Technologies
 Semester 2, 2016
+
 James Stone 761353
 
 [![Build Status](https://travis-ci.com/jamesmstone/Knowledge-Technologies-Project-1.svg?token=p8yLcFuVj6kMWC4pZF7s&branch=master)](https://travis-ci.com/jamesmstone/Knowledge-Technologies-Project-1)
@@ -11,7 +12,7 @@ A [PDF](https://github.com/jamesmstone/Knowledge-Technologies-Project-1/releases
 I choose to write a Perl script:  `neighbourhoodReplace.pl`
 
 ### Dependencies
-- [Perl](https://www.perl.org/get.html))
+- [Perl](https://www.perl.org/get.html)
 - [String Approx Perl Module](http://search.cpan.org/~jhi/String-Approx/Approx.pm)
 
 ### Running
