@@ -10,8 +10,11 @@ A [PDF](https://github.com/jamesmstone/Knowledge-Technologies-Project-1/releases
 ## Usage
 I choose to write a Perl script:  `neighbourhoodReplace.pl`
 
-If you have Perl ([download](https://www.perl.org/get.html)) installed it can be run using:
+### Dependencies
+- [Perl](https://www.perl.org/get.html))
+- [String Approx Perl Module](http://search.cpan.org/~jhi/String-Approx/Approx.pm)
 
+### Running
 `perl neighbourhoodReplace.pl {document.txt} {correctSpelling.txt} {threshold} {output.txt}`
 
 where:
@@ -21,3 +24,6 @@ where:
 {threshold}           is a positive integer indicating how close a neighbor to replace
 {output.txt}          is the outputted file with the corrected spellings.
 ```
+## Docker
+Alternatively, if you have [docker](https://www.docker.com/) installed, you can run the program by executing `docker build -t neighbourhoodreplace . && docker run -v "$(pwd)":/usr/src/myapp -w /usr/src/myapp neighbourhoodreplace  {document.txt} {correctSpelling.txt} {threshold} {output.txt}`
+where the parameters are the same as above.
