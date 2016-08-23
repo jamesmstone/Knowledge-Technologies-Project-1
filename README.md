@@ -22,7 +22,7 @@ where:
 ```
 {document.txt}        is the file you which to perform the corrections on.
 {correctSpelling.txt} is a file with words (line delimited) spelled correctly
-{threshold}           is a positive integer indicating how close a neighbor to replace
+{threshold}           is a positive integer indicating how close a neighbour to replace
 {output.txt}          is the outputted file with the corrected spellings.
 ```
 ## Docker
