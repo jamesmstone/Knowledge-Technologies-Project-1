@@ -5,13 +5,16 @@ services:
 before_install:
 - docker pull blang/latex
 script:
+- ./neighbourhoodSearch.sh tweets/stone1_tweets.txt geonames/US-loc-names.txt 1 > output.txt
 - docker run --rm -i --user="$(id -u):$(id -g)" --net=none -v "$(pwd)/report":/data blang/latex xelatex -interaction=nonstopmode report.tex || true; test -e report/report.pdf && echo "pdf generated" #  change fail condition to not having a pdf generated
 - cat report/report.log
 deploy:
   provider: releases
   api_key:
     secure: U5480X9KbELS0s64V7SHTCBTHKzzHGQ8Hqxs+dcY9cca39usiWpZw/Uwf+zZSksuVvZFl/Bz6L9XNYCujb9WGiE2P76lt/2K/k4qj7aTm7/Vi2c5StjdoIeeijQEzhABjLlkDenwbwyap/lX1Tw8Yc5LlQgAgleZt8axdShfvnH9jE9nXDlZQJLf56PJ66XETLXnlxyPJLSrYFVcfY2LBaodC6B6pBGyYxBMlpkAwhoANJM7b4a0ShGnKWJV1BbTAqQGoGnjl94fzyaLWeLdMPKnZy6Ak0qA48c6GMgRsUSm7JN4pH/kT2zPGjq1T43Tlc63mN4tJge4Rs/EQKb8HhK1+tBU/Rib/Tt7rhrQcMKETdq5+InelFuQ2Sr7DGOPs/qL4Bw2UbfjOyqGBI53cx+Yfo92qGtf8Ybcu7ACwWb9PAvQ0EjoJFjA55XSJQ/AC+dCQwufRfqiFOa1eb0OUUt3QS/zH5uAtcy6F0E+/vOBx56m01Fu5L37MC9FCqcSXLFuiJ6tyDDYtxkzkqIv15FlE/9MrOqeKZb7pZV9LU09yVUXIRjxraTTb6CTqzlHslFrHtwoAvvTH4mvZ3XSBG+a4OPokmJAUKtwsrGBT1T8gplcwgKOh/Y/5OvwmN5CkQRDWjj0H32jqNXXxTuJX592ee0Io2u0ph1/q4W8r2E=
-  file: report/report.pdf
+  file:
+    - report/report.pdf
+    - output.txt
   skip_cleanup: true
   on:
     repo: jamesmstone/Knowledge-Technologies-Project-1
