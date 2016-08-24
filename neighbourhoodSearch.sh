@@ -21,17 +21,16 @@ neighbourhoodSearch(){
   # attempt regex     (^[0-9]).*
   # attempt two regex (^ *([0-9]|\.)*\w+ )
   # sed 's/^ *[0-9]\w\+ //g' $2 `# remove initial numbers` \
-  sed 's/^\(\( \|\.\)*\([0-9]\|[0-9]\+\.\)\w\+ \+\)\+//g' $2 `# remove initial numbers` \
+  #sed 's/^\(\( \|\.\)*\([0-9]\|[0-9]\+\.\)\w\+ \+\)\+//g' $2 `# remove initial numbers` \
+  sed -r 's/[^[:space:]]*[0-9][^[:space:]]* ?//g' $2 `# remove words with numbers from http://stackoverflow.com/a/39113175/1432051` \
   | tr -d '[:punct:]' `# remove punctuation` \
   | tr '[:upper:]' '[:lower:]' `# make all lowercase` \
-  | awk '!a[$0]++' `# remove duplicates` \
-  > tempfile.txt;
-
+  #| awk '!a[$0]++' `# remove duplicates` \
   #| xargs -i -0 -d "\n" -n$3 -P4 agrep -w -1 -i '"{}"' $1
-  agrep -w -1 -i -f tempfile.txt $1;
-  less tempfile.txt;
-  #rm tempfile.txt;
+  # agrep -w -1 -i -f tempfile.txt $1;
 
+  #| tr -d '[:blank:]' `# remove whitespace` \
+  #| sed '/^$/d' `# trim` \
 
   # doesnt work  | cut -c 1-30 `# take only first 30 characters` \
 }
