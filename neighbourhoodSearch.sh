@@ -23,8 +23,12 @@ neighbourhoodSearch(){
   # sed 's/^ *[0-9]\w\+ //g' $2 `# remove initial numbers` \
   #sed 's/^\(\( \|\.\)*\([0-9]\|[0-9]\+\.\)\w\+ \+\)\+//g' $2 `# remove initial numbers` \
   sed -r 's/[^[:space:]]*[0-9][^[:space:]]* ?//g' $2 `# remove words with numbers from http://stackoverflow.com/a/39113175/1432051` \
-  | tr -d '[:punct:]' `# remove punctuation` \
-  | tr '[:upper:]' '[:lower:]' `# make all lowercase` \
+  | awk '!a[$0]++' `# remove duplicates` \
+  | xargs -i -0 -d "\n" -n1 -P4 agrep -w -n -$3 -i '"{}"' $1 2>/dev/null \
+  | sort -u
+
+  #| tr -d '[:punct:]' `# remove punctuation` \
+  # | tr '[:upper:]' '[:lower:]' `# make all lowercase` \
   #| awk '!a[$0]++' `# remove duplicates` \
   #| xargs -i -0 -d "\n" -n$3 -P4 agrep -w -1 -i '"{}"' $1
   # agrep -w -1 -i -f tempfile.txt $1;
