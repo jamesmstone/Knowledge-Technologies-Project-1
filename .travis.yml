@@ -6,6 +6,7 @@ before_install:
 - docker pull blang/latex
 script:
 - ./neighbourhoodSearch.sh tweets/stone1_tweets.txt geonames/US-loc-names.txt 1 > output.txt
+- cat output.txt
 - docker run --rm -i --user="$(id -u):$(id -g)" --net=none -v "$(pwd)/report":/data blang/latex xelatex -interaction=nonstopmode report.tex || true; test -e report/report.pdf && echo "pdf generated" #  change fail condition to not having a pdf generated
 - cat report/report.log
 deploy:

@@ -24,7 +24,7 @@ neighbourhoodSearch(){
   #sed 's/^\(\( \|\.\)*\([0-9]\|[0-9]\+\.\)\w\+ \+\)\+//g' $2 `# remove initial numbers` \
   sed -r 's/[^[:space:]]*[0-9][^[:space:]]* ?//g' $2 `# remove words with numbers from http://stackoverflow.com/a/39113175/1432051` \
   | awk '!a[$0]++' `# remove duplicates` \
-  | xargs -i -0 -d "\n" -n1 -P4 agrep -w -n -$3 -i '"{}"' $1 2>/dev/null \
+  | xargs -i -0 -d "\n" -n1 -P4 agrep -w -n -$3 -i '"{}"' $1  \
   | sort -u
 
   #| tr -d '[:punct:]' `# remove punctuation` \
