@@ -18,3 +18,4 @@ deploy:
   skip_cleanup: true
   on:
     repo: jamesmstone/Knowledge-Technologies-Project-1
+    branch: master
