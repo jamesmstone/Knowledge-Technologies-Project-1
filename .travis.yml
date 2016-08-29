@@ -6,7 +6,7 @@ before_install:
 - sudo apt-get update && sudo apt-get install agrep
 #- docker pull blang/latex
 script:
-- ./neighbourhoodSearch.sh ./tweets/stone1_tweets_small.txt ./geonames/US-loc-names.txt 1 > output.txt
+- ./neighbourhoodSearch.sh ./tweets/stone1_tweets_small.txt ./geonames/US-loc-names.txt 1 2>/dev/null  > output.txt
 - cat output.txt
 - docker pull blang/latex
 - docker run --rm -i --user="$(id -u):$(id -g)" --net=none -v "$(pwd)/report":/data blang/latex xelatex -interaction=nonstopmode report.tex || true; test -e report/report.pdf && echo "pdf generated" #  change fail condition to not having a pdf generated
