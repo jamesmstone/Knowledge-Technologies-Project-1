@@ -38,12 +38,35 @@
 
 \section{Description}
 %1. A basic description of the problem and the data set;
+The task was to filter a list of tweets to ones including a location.
 \section{Method Overview}
 %2. An overview of your approximate matching methods. You can assume that the reader is familiar with the methods discussed in this subject, and instead focus on how they are applied to this task,
 I choose to treat the sample as a monolithinc entity and use Neighbourhood Search.
 I choose to write a Bash script:  `neighbourhoodSearch.sh`
 Before the neighbourhood search is run I had to clean the data.
+
+
 % including some indication of how you dealt with location names of more than one word (if necessary);
+Unffortunately the location dataset was all over the place. It contained many duplicates (relatively and time efficient to filter out), it also contain a collection of non places, such as a series of numbers written out as words  eg "nethousdandtwohundred". It also contained a small collection of urls.
+Another difficulty, was places that were more than one word long: eg "New York" these posed a problem as other places were unnesasacirly longer than one word. Even amongst Zion churches there was no consistency:
+
+Zion Congregational Church of God in Christ
+Zion Dominion Church of God
+Zion Hill Baptist Church of East Detroit
+Zion Hill Church of God in Christ
+Zion Light Church of Christ
+Zion Lutheran Church of Augsburg
+
+
+For example a Cemetery in Zion: "Zion United Church of Christ Cemetery". Due to the size restrictions of agrep and time constrains of searching, it wasn't feasible to search for approximate matches of the whole string "Zion United Church of Christ Cemetery"  particuarly the as the longer the string the less likeky we are to match the entire phrase, even with an approximate search. Additionally you could miss cases where it has been written in an active voice over a passive voice of vice versa. For example the previous locatin could have easily been wrriten as the "Christ Church Cemetery of the Zion United Church" As such I decided to split the words on spaces. However that brings its own issues. Now the data set was mtahcing on all places that conatin "of" from "Church of" or "New" from "New York". 
+
+
+The dataset also contained alot of locations joined together via hyphons, some of these were joined for genuine reasons such as ""
+others however were joined as together they 
+
+
+punctuation 
+
 \section{Effectiveness}
 %3. A discussion of the effectiveness of the approximate matching method(s) you chose,
 % including a formal evaluation, and some examples to illustrate where the method(s) was/were effective/ineffective;
