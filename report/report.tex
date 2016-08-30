@@ -1,31 +1,30 @@
 \documentclass[a4paper]{article}
-
+%\usepackage[margin=0.75in]{geometry} % margins
 \usepackage[english]{babel}
-%\usepackage[utf8]{inputenc}
+\usepackage[utf8]{inputenc}
 \usepackage{amsmath}
 \usepackage{graphicx}
+\usepackage[colorinlistoftodos]{todonotes}
+\usepackage{float} % Image float [H] option
+\usepackage{subfig} % Figures in figures ( I think)
 
-% \usepackage{natbib}
-% \usepackage{fixltx2e}
-% \usepackage[version=3]{mhchem}
-% \usepackage{float}
+\usepackage{hyperref} % \url
 
-\usepackage{titlesec}
-\usepackage{titling}
-\usepackage{fontspec}
-\usepackage{authoraftertitle}
+% Default Font
+\usepackage[default]{lato}
+\usepackage[T1]{fontenc}
+\renewcommand{\mddefault}{l}% switch default weight to light
 
-% \setmainfont{Lato}
-% \setsansfont{Trebuchet MS}
-% \setmonofont{Inconsolata}
-% Specify different font for section headings
-% \newfontfamily\headingfont[]{Georgia}
-\titleformat*{\section}{\LARGE\headingfont}
-\titleformat*{\subsection}{\Large\headingfont}
-\titleformat*{\subsubsection}{\large\headingfont}
-%\renewcommand{\maketitlehooka}{\headingfont}
+% Paragraphs
+\setlength{\parskip}{\baselineskip}	% add space between paragraphs
+\setlength{\parindent}{0pt}			% No paragraph indent
 
-\bibliographystyle{agsm}
+% Declare first level dot point as a -
+\def\labelitemi{--}
+
+% Smart quotes
+\usepackage [autostyle, english = american]{csquotes}
+\MakeOuterQuote{"}
 
 \title{Knowledge Technologies - Project 1: Misspelled Location Names}
 
@@ -50,23 +49,20 @@ I choose to write a Bash script:  `neighbourhoodSearch.sh`
 Before the neighbourhood search is run I had to pre-process the data.
 
 to do this I did the following:
-Locations file:
-- removed words that contain numbers
-- removed punctuation
-- replaced "-" and "/" with " "
-- removed common small words:'of','and','a','an' 'the'
-- replaced spaces with newlines
-- made every character lowercase (in prep for next step)
-- removed lines that contain numbers written as words eg. "hundred/" and "thousand" (reason: same as for removing line
-- remove duplicates.
+\subsection{Locations file:}
+\begin{description}
+\item[Removed words that contain numbers] A measure to prevent lots of false positives (tweets containing numbers not involving a location), however it increases the number of false negatives (tweets about locations that have a number in their name).
+\item[Removed punctuation] As a measure to help limit the number of duplicate searches, place name with punctuation will still get picked up due to th
+\item[Replaced "-" and "/" with " "]
+\item[Removed common small words:'of','and','a','an' 'the']
+\item[Replaced spaces with newlines]
+\item[Change case] in preparation for removing duplicates, I converted all the text to it's lowercase version.
+\item[Removed lines that contain numbers written as words e.g. "hundred" and "thousand" (reason: same as for removing line]
+\item[Remove duplicates] No uses processing the same result multiple times.
+\item[Trim location length to 20 characters] As the tool I'm using to perform the neighbourhood search, "agrep", only allows search patterns of a maximum length. Additionally places that are greater than 20 characters are more likely not present in an 140 character tweet. Further, the longer the search string the longer it take to perform the search.
+\end{description}
 
-  | cut -c 1-20  `# only keep first 20 characters` \
-  | awk 'length > 4' `# only keep lines longer than 4` \
-  | xargs -i -0 -d "\n" -n1 -P1 sh -c "echo \"{}\" 1>&2 && agrep -w -n -$3 -i '\"{}\"' $1 | sed \"s/.*/&      Location: \"{}\"/\" "   \
-  | sort -u
-
-
-Tweets
+\subsection{Tweets file}
 remove timestamp, id and ... so just leaving the raw tweets.
 
 
