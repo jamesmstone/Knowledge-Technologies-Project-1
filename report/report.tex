@@ -39,11 +39,36 @@
 \section{Description}
 %1. A basic description of the problem and the data set;
 The task was to filter a list of tweets to ones including a location.
+
+The data was sourced from two files, One containing locations in the US and one containing tweets.
+Unfortunately, both file needed some pre-processing to make them usable. (see Method Overview)
 \section{Method Overview}
-%2. An overview of your approximate matching methods. You can assume that the reader is familiar with the methods discussed in this subject, and instead focus on how they are applied to this task,
+%%2. An overview of your approximate matching methods. You can assume that the reader is familiar with the methods discussed in this subject, and instead focus on how they are applied to this task,
+
 I choose to treat the sample as a monolithinc entity and use Neighbourhood Search.
 I choose to write a Bash script:  `neighbourhoodSearch.sh`
-Before the neighbourhood search is run I had to clean the data.
+Before the neighbourhood search is run I had to pre-process the data.
+
+to do this I did the following:
+Locations file:
+- removed words that contain numbers
+- removed punctuation
+- replaced "-" and "/" with " "
+- removed common small words:'of','and','a','an' 'the'
+- replaced spaces with newlines
+- made every character lowercase (in prep for next step)
+- removed lines that contain numbers written as words eg. "hundred/" and "thousand" (reason: same as for removing line
+- remove duplicates.
+
+  | cut -c 1-20  `# only keep first 20 characters` \
+  | awk 'length > 4' `# only keep lines longer than 4` \
+  | xargs -i -0 -d "\n" -n1 -P1 sh -c "echo \"{}\" 1>&2 && agrep -w -n -$3 -i '\"{}\"' $1 | sed \"s/.*/&      Location: \"{}\"/\" "   \
+  | sort -u
+
+
+Tweets
+remove timestamp, id and ... so just leaving the raw tweets.
+
 
 
 % including some indication of how you dealt with location names of more than one word (if necessary);
@@ -58,18 +83,21 @@ Zion Light Church of Christ
 Zion Lutheran Church of Augsburg
 
 
-For example a Cemetery in Zion: "Zion United Church of Christ Cemetery". Due to the size restrictions of agrep and time constrains of searching, it wasn't feasible to search for approximate matches of the whole string "Zion United Church of Christ Cemetery"  particuarly the as the longer the string the less likeky we are to match the entire phrase, even with an approximate search. Additionally you could miss cases where it has been written in an active voice over a passive voice of vice versa. For example the previous locatin could have easily been wrriten as the "Christ Church Cemetery of the Zion United Church" As such I decided to split the words on spaces. However that brings its own issues. Now the data set was mtahcing on all places that conatin "of" from "Church of" or "New" from "New York". 
+For example a Cemetery in Zion: "Zion United Church of Christ Cemetery". Due to the size restrictions of agrep and time constrains of searching, it wasn't feasible to search for approximate matches of the whole string "Zion United Church of Christ Cemetery"  particularly the as the longer the string the less likely we are to match the entire phrase, even with an approximate search. Additionally you could miss cases where it has been written in an active voice over a passive voice of vice versa. For example the previous location could have easily been written as the "Christ Church Cemetery of the Zion United Church" As such I decided to split the words on spaces. However that brings its own issues. Now the data set was matching on all places that contain "of" from "Church of" or "New" from "New York".
 
 
-The dataset also contained alot of locations joined together via hyphons, some of these were joined for genuine reasons such as ""
-others however were joined as together they 
+The dataset also contained many locations joined together via hyphens, some of these were joined for genuine reasons such as ""
+others however were joined as together they
 
 
-punctuation 
+punctuation
 
 \section{Effectiveness}
 %3. A discussion of the effectiveness of the approximate matching method(s) you chose,
 % including a formal evaluation, and some examples to illustrate where the method(s) was/were effective/ineffective;
+
+%James: Talk about precision
+
 \section{Conclusion}
 %4. Some conclusions about the problem of searching for misspelled location names within a collection of tweets
 
