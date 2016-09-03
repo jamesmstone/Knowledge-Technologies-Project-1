@@ -43,9 +43,9 @@ pv $2 \
 | awk '!a[$0]++' `# remove duplicates` \
 | cut -c 1-20  `# only keep first 20 characters` \
 | awk 'length > 4' `# only keep lines longer than 4` \
- | xargs -i -0 -d "\n" -n1 -P1 sh -c "echo \"{}\" 1>/dev/null && agrep -w -n -$3 -i '\"{}\"' $1 "    \
+| xargs -i -0 -I % -d "\n" -n1 -P1 sh -c "echo \"%\" 1>/dev/null && agrep -w -n -$3 -i '\"%\"' $1  |  sed 's/$/ Location: % /' " \
+| sort -u
 #| xargs -i -0 -d "\n" -n1 -P1 agrep -w -n -$3 -i '"{}"' $1    \
-#| sort -u
 
 
 
