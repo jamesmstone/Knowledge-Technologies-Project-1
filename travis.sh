@@ -7,7 +7,7 @@ build_pdf(){
 }
 
 build_tweets_ouput(){
-  ./neighbourhoodSearch.sh ./tweets/stone1_tweets_small.txt ./geonames/US-loc-names.txt 1 2>/dev/null  > output.txt;
+  ./neighbourhoodSearch.sh ./tweets/stone1_tweets_small.txt ./geonames/US-loc-names.txt 2  > output.txt;
   cat output.txt;
 }
 

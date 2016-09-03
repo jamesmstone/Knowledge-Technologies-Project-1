@@ -14,19 +14,50 @@ neighbourhoodSearch(){
     exit;
   fi
 
-  sed -r 's/[^[:space:]]*[0-9][^[:space:]]* ?//g' $2 `# remove words with numbers from http://stackoverflow.com/a/39113175/1432051` \
-  | tr -d '[:punct:]' `# remove punctuation` \
-  | tr '-' ' ' \
-  | tr '/' ' ' \
-  | `# remove common small words` tr -d 'of' | tr -d 'and' | tr -d 'of' | tr -d 'a' | tr -d 'an' | tr -d 'the' \
-  | tr ' ' '\n' \
-  | awk '{print tolower($0)}' \
-  | `# remove word numbers` awk '!/hundred/' | awk '!/thousand/' \
-  | awk '!a[$0]++' `# remove duplicates` \
-  | cut -c 1-20  `# only keep first 20 characters` \
-  | awk 'length > 4' `# only keep lines longer than 4` \
-  | xargs -i -0 -d "\n" -n1 -P1 sh -c "echo \"{}\" 1>&2 && agrep -w -n -$3 -i '\"{}\"' $1 | sed \"s/.*/&      Location: \"{}\"/\" "   \
-  | sort -u
+  #sed -r 's/[^[:space:]]*[0-9][^[:space:]]* ?//g' $2 `# remove words with numbers from http://stackoverflow.com/a/39113175/1432051` \
+  #| tr -d '[:punct:]' `# remove punctuation` \
+  #| tr '-' ' ' \
+  #| tr '/' ' ' \
+  #| `# remove common small words` tr -d 'of' | tr -d 'and' | tr -d 'of' | tr -d 'a' | tr -d 'an' | tr -d 'the' \
+  #| tr ' ' '\n' \
+  #| awk '{print tolower($0)}' \
+  #| `# remove word numbers` awk '!/hundred/' | awk '!/thousand/' \
+  #| awk '!a[$0]++' `# remove duplicates` \
+  #| cut -c 1-20  `# only keep first 20 characters` \
+  #| awk 'length > 4' `# only keep lines longer than 4` \
+  #| xargs -i -0 -d "\n" -n1 -P1 sh -c "echo \"{}\" 1>&2 && agrep -w -n -$3 -i '\"{}\"' $1 | sed \"s/.*/&      Location: \"{}\"/\" "   \
+  #| sort -u
+
+#  | xargs -i -0 -d "\n" -n1 -P1 sh -c "echo \"{}\" 1>&2 && agrep -w -n -$3 -i '\"{}\"' $1 | sed \"s/.*/&      Location: \"{}\"/\" "   \
+
+
+
+
+sed -r 's/[^[:space:]]*[0-9][^[:space:]]* ?//g' $2 `# remove words with numbers from http://stackoverflow.com/a/39113175/1432051` \
+| tr -d '[:punct:]' `# remove punctuation` \
+| tr '-' ' ' \
+| tr '/' ' ' \
+| tr ' ' ' ' \
+| awk '{print tolower($0)}' \
+| `# remove word numbers` awk '!/hundred/' | awk '!/thousand/' \
+| awk '!a[$0]++' `# remove duplicates` \
+| cut -c 1-20  `# only keep first 20 characters` \
+| awk 'length > 4' `# only keep lines longer than 4` \
+ | xargs -i -0 -d "\n" -n1 -P1 sh -c "echo \"{}\" 1>&2 && agrep -w -n -$3 -i '\"{}\"' $1 "    \
+#| xargs -i -0 -d "\n" -n1 -P1 agrep -w -n -$3 -i '"{}"' $1    \
+#| sort -u
+
+
+
+
+
+
+
+
+
+
+
+
 
 
   #sed -r 's/[^[:space:]]*[0-9][^[:space:]]* ?//g' $2 `# remove words with numbers from http://stackoverflow.com/a/39113175/1432051` \
