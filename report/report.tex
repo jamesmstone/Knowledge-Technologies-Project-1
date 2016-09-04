@@ -86,7 +86,6 @@ Locations containing more than one word presented difficulty, for example "\text
   \item Zion Lutheran Church of Augsburg
 \end{itemize}
 
-
 Due to the size restrictions of \texttt{agrep} and time constraints of searching, it was infeasible to search for approximate matches of the whole string "\textit{Zion United Church of Christ Cemetery}" particularly as the longer the string the less likely it was to match the entire phrase, even with an approximate search. Additionally, you could miss cases where it has been written in an active voice over a passive voice or vice versa. For example, the previous location could have easily been written as the "\textit{Christ Church Cemetery of the Zion United Church}". As such I decided to split the words on spaces. However, that brings its own issues. This caused the dataset to match tweets that contained smaller common words. For example, the search tool matched all tweets that contained  "\textit{of}" as  "\textit{Church of}"  was being tokenised to \textit{"Church"} and \textit{"of"} or "\textit{New}" from "\textit{New York}".
 The dataset also contained many locations joined together via hyphens, some of these were joined for genuine reasons such as: "\textit{Camp A-Hi-S-Ta-Di}". Others however, were joined for no apparent reason, such as: "\textit{Caddo-Wichita-Delaware Oklahoma Tribal Statistical Area}", where the name is actually multiple names. This posed a similar issues to locations with spaces in their name. Therefore, I chose to treat hyphens as spaces, so hyphinated words, like the spaced words were tokenised into different locations.
 
@@ -114,9 +113,7 @@ The number of false positives increased as the number of allowed edits increased
 %James: Talk about precision
 This task can only be analysed in a qualitative manner, as I have no way of knowing definitively if a tweet contains a location. Therefore, it is not possible to calculate the effectiveness in terms of precision or accuracy.
 
-
 \section{Conclusion}
 %4. Some conclusions about the problem of searching for misspelled location names within a collection of tweets
-Neighbourhood search is a slow process, when dealing with large datasets.
-The more flexible a search the more false positives are returned.
+Neighbourhood search is a slow process, particuarly when dealing with large datasets. The more flexible a search the more results are returned. However, this also increases the number of false positives.
 \end{document}

@@ -9,7 +9,7 @@ James Stone 761353
 A [PDF](https://github.com/jamesmstone/Knowledge-Technologies-Project-1/releases/latest) report, describing the process can be downloaded from the [Releases](https://github.com/jamesmstone/Knowledge-Technologies-Project-1/releases/latest) tab of the Github [repo](https://github.com/jamesmstone/Knowledge-Technologies-Project-1). Or from the LMS.
 
 ## Usage
-I choose to write a Bash script:  `neighbourhoodSearch.sh`
+I choose to write a Bash script: `neighbourhoodSearch.sh`
 
 ### Dependencies
 - [agrep](https://en.wikipedia.org/wiki/agrep)
