@@ -37,74 +37,86 @@
 
 \section{Description}
 %1. A basic description of the problem and the data set;
-The task was to filter a list of tweets to ones including locations.
+The requirement for this task was to take a list of tweets and filter it to those that contained the name of a location.
 
-The data was sourced from two files, One containing locations in the US and one containing tweets.
-Unfortunately, both file needed some pre-processing to make them usable. (see Method Overview)
+The data was sourced from two files, one containing locations in the USA and one containing a random sample of tweets.
+Unfortunately, both files needed some pre-processing to make them usable. (see section below on Method Overview).
+
+As tweets are used as an informal method of communication, they are often prone to spelling errors, as such an approximate matching of the locations is required.
 \section{Method Overview}
 %%2. An overview of your approximate matching methods. You can assume that the reader is familiar with the methods discussed in this subject, and instead focus on how they are applied to this task,
 
-I choose to treat the sample as a monolithinc entity and use Neighbourhood Search.
-I choose to write a Bash script: \texttt{neighbourhoodSearch.sh}.
+I chose to treat the sample as a monolithic entity performing an approximate matching on the datasets using a neighbourhood search.
+As a command line tool already existed to easily perform approximate searches on two strings, \texttt{agrep}, I chose to write a bash script: \texttt{neighbourhoodSearch.sh}. Furthermore, many tools exist for the unix shell that are designed for easy text manipulation: \texttt{sed}, \texttt{awk}, \texttt{tr} etc., this made the pre-processing of the files trivial.
 
 \subsection{Pre-processing}
-Before the neighbourhood search is run I had to pre-process the data. To do this I performed the following operations:
+Before the neighbourhood search was run I had to pre-process the data, to make the search more efficient and effective. To do this I performed the following operations:
 
 \subsubsection{Tweets file}
-I removed everything that wasn't directly related to the \textit{"raw"} tweets. This meant removing:
+I removed everything that was not directly related to the \textit{"raw"} tweets. This meant removing:
 \begin{itemize}
-  \item User ID
+  \item User IDs
   \item Tweet IDs
   \item Timestamps
 \end{itemize}
 
-\subsubsection{Locations file:}
+\subsubsection{Locations file}
 I also performed the following operations on the Locations file:
 \begin{description}
-\item[Removed words that contain numbers] A measure to prevent lots of false positives (tweets containing numbers not involving a location), however it increases the number of false negatives (tweets about locations that have a number in their name).
-\item[Removed punctuation] As a measure to help limit the number of duplicate searches, place name with punctuation will still get picked up due to th
-\item[Replaced "-" and "/" with " "]
-\item[Removed common small words] such as: '\textit{of}', '\textit{and}', '\textit{a}', '\textit{an}' and '\textit{the}'. This was done as these words aren't unique to place names. Additonally, they are more common in other parts of language and therefore would lead to more false positives than positives.
-\item[Replaced spaces with newlines] (Only after initial run, see section below on Multiple word places).
-\item[Change case] in preparation for removing duplicates, I converted all the text to it's lowercase version.
-\item[Removed lines that contain numbers written as words] e.g. "\textit{hundred}" and "\textit{thousand}". This was done for the same reason I removed lines numbered lines.
-\item[Remove duplicates] No uses processing the same result multiple times.
-\item[Trim location length to 20 characters] As the tool I'm using to perform the neighbourhood search, \texttt{agrep}, only allows search patterns of a maximum length. Additionally places that are greater than 20 characters are more likely not present in an 140 character tweet. Further, the longer the search string the longer it takes to perform the neighbourhood search.
+  \item[Removed words that contain numbers:] As an attempt to reduce the number of false positives, (tweets containing numbers not involving a location). However, this increases the number of false negatives, (tweets about locations that have a number in their name).
+  \item[Removed punctuation:] As a measure to help limit the number of duplicate searches and more importantly, pick up items missing the correct punctuation. Note: location names with the correct punctuation will still get picked up due to the nature of a neighbourhood search.
+  \item[Replaced "-" and "/" with " ":] Also performed to standardise punctuation.
+  \item[Removed common small words:] Such as: '\textit{of}', '\textit{and}', '\textit{a}', '\textit{an}' and '\textit{the}'. This was done as these words are not unique to location names. Additionally, they are more common in other parts of language and therefore would lead to more false positives than positives.
+  \item[Replaced spaces with newlines:] This was changed only after the initial run, see section below on Multiple word locations.
+  \item[Changed case:] In preparation for removing duplicates, I converted all the text to the lowercase equivalent.
+  \item[Removed lines that contain numbers written as words:] e.g. "\textit{hundred}" and "\textit{thousand}". This was performed for the same reason I removed words that contained numbers.
+  \item[Remove duplicates:] As there was no benefit from processing the same location multiple times.
+  \item[Trim location length to 20 characters:] As the tool I'm using to perform the neighbourhood search, \texttt{agrep} only allowed search patterns of this maximum length. Additionally, locations that are greater than 20 characters in length are more likely absent in a 140 character tweet. Further, the longer the search string the longer it takes to perform the neighbourhood search.
 \end{description}
 
 % including some indication of how you dealt with location names of more than one word (if necessary);
-\subsection{Multiple word places}
-Another difficulty, was places that were more than one word long: eg “\textit{New York}” these posed a problem as other places were unnesasacirly longer than one word. For example:Zion churches there was no consistency:
+\subsection{Multiple word locations}
+Locations containing more than one word presented difficulty, for example "\textit{New York}". Multiple word locations posed a problem as they contrasted other locations which unnecessarily contained more than one word. For example: \textit{"Zion Congregational Church of God in Christ"}. This meant there was no simple method of tokenisation. This problem can be clearly seen amongst churches where there was no consistent naming:
 \begin{itemize}
-\item Zion Congregational Church of God in Christ
-\item Zion Dominion Church of God
-\item Zion Hill Baptist Church of East Detroit
-\item Zion Hill Church of God in Christ
-\item Zion Light Church of Christ
-\item Zion Lutheran Church of Augsburg
+  \item Zion Congregational Church of God in Christ
+  \item Zion Dominion Church of God
+  \item Zion Hill Baptist Church of East Detroit
+  \item Zion Hill Church of God in Christ
+  \item Zion Light Church of Christ
+  \item Zion Lutheran Church of Augsburg
 \end{itemize}
 
-Due to the size restrictions of \texttt{agrep} and time constrains of searching, it wasn't feasible to search for approximate matches of the whole string "\textit{Zion United Church of Christ Cemetery}" particularly as the longer the string the less likely we are to match the entire phrase, even with an approximate search. Additionally you could miss cases where it has been written in an active voice over a passive voice of vice versa. For example the previous location could have easily been written as the "Christ Church Cemetery of the Zion United Church". As such I decided to split the words on spaces. However, that brings its own issues. Now the data set was matching tweets that contained smaller common words. For example it was matching all tweets that contain  "\textit{of}" from "\textit{Church of}" or "\textit{New}" from "\textit{New York}".
 
-The dataset also contained many locations joined together via hyphens, some of these were joined for genuine reasons such as "" others however were joined as together they
+Due to the size restrictions of \texttt{agrep} and time constraints of searching, it was infeasible to search for approximate matches of the whole string "\textit{Zion United Church of Christ Cemetery}" particularly as the longer the string the less likely it was to match the entire phrase, even with an approximate search. Additionally, you could miss cases where it has been written in an active voice over a passive voice or vice versa. For example, the previous location could have easily been written as the "\textit{Christ Church Cemetery of the Zion United Church}". As such I decided to split the words on spaces. However, that brings its own issues. This caused the dataset to match tweets that contained smaller common words. For example, the search tool matched all tweets that contained  "\textit{of}" as  "\textit{Church of}"  was being tokenised to \textit{"Church"} and \textit{"of"} or "\textit{New}" from "\textit{New York}".
+The dataset also contained many locations joined together via hyphens, some of these were joined for genuine reasons such as: "\textit{Camp A-Hi-S-Ta-Di}". Others however, were joined for no apparent reason, such as: "\textit{Caddo-Wichita-Delaware Oklahoma Tribal Statistical Area}", where the name is actually multiple names. This posed a similar issues to locations with spaces in their name. Therefore, I chose to treat hyphens as spaces, so hyphinated words, like the spaced words were tokenised into different locations.
 
 \section{Effectiveness}
 %3. A discussion of the effectiveness of the approximate matching method(s) you chose,
 % including a formal evaluation, and some examples to illustrate where the method(s) was/were effective/ineffective;
-Unffortunately, the location dataset was all over the place. It contained many duplicates (not a problem as relatively easy and time efficient to filter out).
-%  it also contain a collection of places, such as a series of numbers written out as words  eg "onethousdandtwohundred". It also contained a small collection of urls.
+Unfortunately, the location dataset was inconsistent. It contained many duplicates, this was not a problem as it was relatively easy and time efficient to filter these out.
+%  it also contain a collection of locations, such as a series of numbers written out as words  eg "onethousdandtwohundred". It also contained a small collection of urls.
 
-In the output data I noticed where lots of false positives due to the splitting of places into individual words: (see section on Multiple word places, as to why this was done). Examples of this can be seen below:
+In the output data I noticed there were many false positives due to the splitting of locations into individual words: (see section on Multiple word locations, as to why this was done). Examples of this can be seen below:
 \begin{itemize}
 \item Location: \texttt{valley}:  \textit{on the "\textbf{valley} girls" episodes of gossip girl. i love this episode!!}
 \item Location: \texttt{movie}:   \textit{"(500) Days Of Summer" is basically "HIMYM: The \textbf{Movie}": playful about timelines and structure, w/a protagonist who wants too much too fast.}
 \item Location: \texttt{green}:   \textit{RT @MarieLancup RT @EcoChic: RT @DawnSandomeno: Top 5 Tips for "\textbf{Green}" Entertaining http://www.partybluprintsbl...}
 \end{itemize}
 
+This  error was exacerbated by the neighbourhood search. For example: \textit{"Christa"} (A place in the US), with an edit distance of \texttt{2} matched all tweets containing \textit{"Christian"}. This is seen in the following tweet:
+% A more common problem was due to the nature of the approximate search. Many false positives would occur. For example:
+\begin{itemize}
+ \item Location: \texttt{Christa}, matched on "\texttt{Christian}" with an edit distance of \texttt{2}: \newline \textttit{"That was the "\texttt{Christian} Side Hug" btw.. I don't know what to tell you."}.
+ \item Location: \texttt{New York}, matched on "\texttt{Network}" with an edit distance of \texttt{3}:  \newline \textit{Learn what the Trump Network has in store for America over the next 2-years}.
+\end{itemize}
+The number of false positives increased as the number of allowed edits increased. This follows intuition, the more flexible the search the more results one should expect to get back.
+
 %James: Talk about precision
-This task can only be analyised in a qualatative manner, as I have no way of knowing definetively if a tweet contains a location. Therefore, it is not possible to calculate the effectiveness in terms of preicision or accuracy.
+This task can only be analysed in a qualitative manner, as I have no way of knowing definitively if a tweet contains a location. Therefore, it is not possible to calculate the effectiveness in terms of precision or accuracy.
+
 
 \section{Conclusion}
 %4. Some conclusions about the problem of searching for misspelled location names within a collection of tweets
-
+Neighbourhood search is a slow process, when dealing with large datasets.
+The more flexible a search the more false positives are returned.
 \end{document}
