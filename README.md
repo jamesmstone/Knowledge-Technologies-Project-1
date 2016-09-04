@@ -18,6 +18,7 @@ I choose to write a Bash script:  `neighbourhoodSearch.sh`
 - [tr](https://en.wikipedia.org/wiki/Tr_(Unix))
 - [xargs](https://en.wikipedia.org/wiki/xargs)
 - [sort](https://en.wikipedia.org/wiki/Sort_(Unix))
+- [pv](http://linux.die.net/man/1/pv)
 
 ### Running
 `./neighbourhoodReplace.sh {document.txt} {correctSpelling.txt} {threshold}`
