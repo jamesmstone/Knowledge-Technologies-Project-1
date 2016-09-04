@@ -109,6 +109,7 @@ This  error was exacerbated by the neighbourhood search. For example: \textit{"C
  \item Location: \texttt{New York}, matched on "\texttt{Network}" with an edit distance of \texttt{3}:  \newline \textit{Learn what the Trump Network has in store for America over the next 2-years}.
 \end{itemize}
 The number of false positives increased as the number of allowed edits increased. This follows intuition, the more flexible the search the more results one should expect to get back.
+Additionally, multiple word locations tended to cause more false positives with the neighbourhood search. This is because in English the prefix of one word and the suffix of another often can form a new word when put together. An example of this can be seen in the aforementioned example of \textit{"New York"} becoming \textit{"Network"}.
 
 %James: Talk about precision
 This task can only be analysed in a qualitative manner, as I have no way of knowing definitively if a tweet contains a location. Therefore, it is not possible to calculate the effectiveness in terms of precision or accuracy.
@@ -116,4 +117,6 @@ This task can only be analysed in a qualitative manner, as I have no way of know
 \section{Conclusion}
 %4. Some conclusions about the problem of searching for misspelled location names within a collection of tweets
 Neighbourhood search is a slow process, particuarly when dealing with large datasets. The more flexible a search the more results are returned. However, this also increases the number of false positives.
+
+In this case, multiple word location names exacerbate the downfalls of the neighbourhood search, due to the prefix and suffix of words in English being often shared.
 \end{document}
