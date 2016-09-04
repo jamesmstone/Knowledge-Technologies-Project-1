@@ -3,7 +3,7 @@ Semester 2, 2016
 
 James Stone 761353
 
-[![Build Status](https://travis-ci.com/jamesmstone/Knowledge-Technologies-Project-1.svg?token=p8yLcFuVj6kMWC4pZF7s&branch=master)](https://travis-ci.com/jamesmstone/Knowledge-Technologies-Project-1)
+[![Build Status](https://travis-ci.org/jamesmstone/Knowledge-Technologies-Project-1.svg?branch=master)](https://travis-ci.org/jamesmstone/Knowledge-Technologies-Project-1)
 
 ## Report
 A [PDF](https://github.com/jamesmstone/Knowledge-Technologies-Project-1/releases/latest) report, describing the process can be downloaded from the [Releases](https://github.com/jamesmstone/Knowledge-Technologies-Project-1/releases/latest) tab of the Github [repo](https://github.com/jamesmstone/Knowledge-Technologies-Project-1). Or from the LMS.
