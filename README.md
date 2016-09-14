@@ -25,7 +25,7 @@ I choose to write a Bash script: `neighbourhoodSearch.sh`
 
 where:
 ```
-{document.txt}        is the file you which to perform the corrections on.
+{document.txt}        is the file you wish to perform the corrections on.
 {correctSpelling.txt} is a file with words (line delimited) spelled correctly
 {threshold}           is a positive integer indicating how close a neighbour to replace
 ```
